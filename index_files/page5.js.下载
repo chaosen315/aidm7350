@@ -1,0 +1,16 @@
+console.log('page5.js started');
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/get-water-dispenser-data')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('total-water-dispensersP5').textContent = data.totalWaterDispensers;
+            document.getElementById('bottle-filling-water-dispensersP5').textContent = data.bottleFillingWaterDispensers;
+            document.getElementById('jet-water-dispensersP5').textContent = data.jetWaterDispensers;
+            document.getElementById('in-use-water-dispensersP5').textContent = data.inUseWaterDispensers;
+            document.getElementById('suspended-water-dispensersP5').textContent = data.suspendedWaterDispensers;
+            document.getElementById('best-districtP5').textContent = data.bestDistrict;
+            document.getElementById('water-dispensers-in-best-districtP5').textContent = data.waterDispensersInBestDistrict;
+        })
+        .catch(error => console.error('Error fetching water dispenser data:', error));
+});
+console.log('page5.js finished');

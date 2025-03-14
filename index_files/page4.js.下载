@@ -1,0 +1,15 @@
+console.log('page4.js started');
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/get-fehd-projects-data')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('supported-marketsP4').textContent = data.supportedMarkets;
+            document.getElementById('percentage-of-marketsP4').textContent = data.percentageOfMarkets.toFixed(2);
+            document.getElementById('more-marketsP4').textContent = data.moreMarkets;
+            document.getElementById('best-green-market-areaP4').textContent = data.bestGreenMarketArea;
+            document.getElementById('green-market-shareP4').textContent = data.greenMarketShare.toFixed(2);
+            document.getElementById('other-markets-shareP4').textContent = data.otherMarketsShare.toFixed(2);
+        })
+        .catch(error => console.error('Error fetching FEHD projects data:', error));
+});
+console.log('page4.js finished');

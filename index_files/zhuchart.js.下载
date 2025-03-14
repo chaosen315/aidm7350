@@ -1,0 +1,33 @@
+console.log('zhuchart.js started');
+var myChart = echarts.init(document.getElementById('main'));
+
+var option = {
+    title: {
+        text: 'Market Distribution by District'
+    },
+    tooltip: {},
+    xAxis: {
+        data: [] // 这里将被District名称填充
+    },
+    yAxis: {},
+    series: [{
+        name: 'Market Count',
+        type: 'bar',
+        data: [] // 这里将被市场数量填充
+    }]
+};
+
+myChart.setOption(option);
+
+// 从后端获取数据
+fetch('/get-district-market-data')
+    .then(response => response.json())
+    .then(data => {
+        const Districts = data.Districts;
+        const marketCounts = data.marketCounts;
+        option.xAxis.data = Districts;
+        option.series[0].data = marketCounts;
+        myChart.setOption(option);
+    })
+    .catch(error => console.error('Error fetching market data:', error));
+console.log('zhuchart.js finished');

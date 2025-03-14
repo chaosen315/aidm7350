@@ -1,0 +1,27 @@
+console.log('page1.js started');
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM content loaded, starting API request...');
+    fetch('/get-market-data')
+        .then(response => {
+            console.log('API request successful, status:', response.status);
+            if (!response.ok) {
+                throw new Error(`Network response was not ok, status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('API data received:', data);
+            document.getElementById('market-countP1').textContent = data.marketCount;
+            document.getElementById('product-typesP1').textContent = data.productTypes;
+            document.getElementById('new-marketsP1').textContent = data.newMarkets;
+        })
+        .catch(error => {
+            console.error('Error fetching market data:', error);
+            if (error instanceof TypeError) {
+                console.error('This may be a network error, please check your connection.');
+            } else if (error.message.includes('Network response was not ok')) {
+                console.error('Server responded with an error status:', error.message);
+            }
+        });
+});
+console.log('page1.js finished');
