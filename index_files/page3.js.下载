@@ -1,0 +1,13 @@
+console.log('page3.js started');
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/get-market-details?marketName=' + encodeURIComponent('QUEEN STREET COOKED FOOD MARKET'))
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('product-typesP3').textContent = data.productTypes;
+            document.getElementById('product-rankP3').textContent = data.productRank;
+            document.getElementById('water-dispensersP3').textContent = data.hasWaterDispensers;
+            document.getElementById('environmental-supportP3').textContent = data.environmentalSupport;
+        })
+        .catch(error => console.error('Error fetching market details:', error));
+});
+console.log('page3.js finished');

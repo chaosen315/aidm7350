@@ -1,0 +1,11 @@
+console.log('page2.js started');
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/get-district-data')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('district-countP2').textContent = data.districtCount;
+            document.getElementById('highest-concentrationP2').textContent = data.highestConcentration;
+        })
+        .catch(error => console.error('Error fetching district data:', error));
+});
+console.log('page2.js finished');

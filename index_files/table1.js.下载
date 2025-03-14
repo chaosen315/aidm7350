@@ -1,0 +1,64 @@
+document.addEventListener('DOMContentLoaded', function() {
+    fetch(`/market-details-tablef?marketName=${encodeURIComponent('QUEEN STREET COOKED FOOD MARKET')}`)
+      .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+      .then(data => {
+            console.log(data);
+            // 填充市场信息表格
+            fillTable('market-info-table', [
+                { field: 'Market_Name', value: data.marketDetails.Market_Name },
+                { field: 'Region', value: data.marketDetails.Region },
+                { field: 'District', value: data.marketDetails.District },
+                { field: 'Address', value: data.marketDetails.Address },
+                { field: 'Business_Hours', value: data.marketDetails.Business_Hours },
+                { field: 'Contact_1', value: data.marketDetails.Contact_1 },
+                { field: 'Contact_2', value: data.marketDetails.Contact_2 },
+                { field: 'Count_Water_Dispenser', value: data.marketDetails.Count_Water_Dispenser },
+                { field: 'Variety', value: data.marketDetails.Variety }
+            ]);
+
+            const exampleData = [
+                { field: 'Tenancy Commodity', value: 'Nos stall' }
+            ];
+            // 使用 map 从元组中提取数据并转换为对象数组
+            const stallInfoData = data.stallInfo.map(stall => {
+                const [commodity, nosStall] = stall;
+                return { field: commodity, value: nosStall };
+            });
+
+            // 合并示例数据和摊位信息数据
+            const combinedData = exampleData.concat(stallInfoData);
+
+            // 调用 fillTable 函数，传入合并后的数据
+            fillTable('stall-info-table', combinedData);
+            // fillTable('stall-info-table', data.stallInfo.map(stall => {
+            //     // 使用解构赋值从元组中提取商品类型和摊位数量
+            //     const [commodity, nosStall] = stall;
+            //     return {
+            //         field: commodity,
+            //         value: nosStall
+            //     };
+            // }));
+        })
+      .catch(error => console.error('Error fetching detail data:', error));
+});
+  
+  function fillTable(tbodyId, data) {
+    const tbody = document.getElementById(tbodyId);
+    tbody.innerHTML = ''; // 清空现有数据
+  
+    data.forEach(item => {
+      const tr = document.createElement('tr');
+      const tdField = document.createElement('td');
+      const tdValue = document.createElement('td');
+      tdField.textContent = item.field;
+      tdValue.textContent = item.value;
+      tr.appendChild(tdField);
+      tr.appendChild(tdValue);
+      tbody.appendChild(tr);
+    });
+  }
